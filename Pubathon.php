@@ -4,6 +4,7 @@
 
 // third commit test
 
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang='en-GB'>
 <head>
@@ -29,3 +30,6 @@ echo "Random scalar: $randvar<br>\n";
 ?>
 </body>
 </html>
+=======
+ab
+>>>>>>> 212a5a28ba9f09528908962018c34fec4caab28b
