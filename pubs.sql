@@ -1,1 +1,0 @@
-CREATE TABLE test(name Varchar(50), age Int);
