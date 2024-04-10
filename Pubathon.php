@@ -32,10 +32,16 @@ try {
   if (isset($_POST['selectedArea'])) {
     $selectedArea = $_POST['selectedArea'];
     
-    // rest of php code here
+    if (isset($_POST['selectedGame'])) {
+      $selectedGame = $_POST['selectedGame'];
+      generatePubs($pdo, $selectedArea);
+      
+    } else {
+      selectGame($selectedArea); // called if user hasn't selected game yet
+    }  
     
   } else {
-    selectArea($pdo); // called if user is yet to select area
+    selectArea($pdo); // called if user hasn't selected area yet
   }
 } catch (PDOException $e) {
   exit("PDO Error: " . $e->getMessage() . "<br>");
@@ -44,7 +50,7 @@ try {
 // Displays dropdown of areas pulled from database
 function selectArea($pdo) {
   echo "<form action='Pubathon.php' method='post'>
-        <label>Select area:</label>
+        <label>Select Area:</label>
         <select name='selectedArea' required=true>
         <option value=''></option>";
         
@@ -57,6 +63,36 @@ function selectArea($pdo) {
   echo "</select>
         <input type='submit' value='Next'>
         </form>";
+}
+
+// Displays dropdown to allow user to chose between pub golf and crawl
+function selectGame($selectedArea) {
+  echo "<form action='Pubathon.php' method='post'>
+        <label>Select Game</label>
+        <select name='selectedGame' required=true>
+        <option value=''></option>
+        <option value='Pub Crawl'>Pub Crawl</option>
+        <option value='Pub Golf'>Pub Golf</option>
+        </select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'> 
+        <input type='submit' value='Next'>
+        </form>";       
+}
+
+// Generates list of pubs depending on area selected
+// Maximum of 9 pubs - can change this in SQL query if needed
+function generatePubs($pdo, $selectedArea) {
+  $stmt = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
+  $stmt->execute(['selectedArea' => $selectedArea]);
+
+  // Displays pubs on screen
+  echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
+  echo "<ul>";
+  while ($row = $stmt->fetch()) {
+    echo "<li>" . $row["name"] . "</li>";
+  }
+  
+  echo "</ul>";
 }
 
 // rest of functions here
