@@ -149,6 +149,27 @@ function noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selected
         </form>";       
 }
 
+///Function for chosing number of players
+function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams) {
+  echo "<form action='Pubathon.php' method='post'>
+        <label>Select Number of Players</label>
+        <select name='selectedPlayers' required=true>
+        <option value=''></option>";
+        
+  for ($i = 2; $i <= 20; $i++) {
+    echo "<option value='$i'>$i</option>";
+  }
+  
+  echo "</select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedRules' value='$selectedRules'> 
+        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
+        <input type='hidden' name='selectedGame' value='$selectedGame'>
+        <input type='hidden' name='selectedTeams' value='$noOfTeams'>
+        <input type='submit' value='Next'>
+        </form>";       
+}
+
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
