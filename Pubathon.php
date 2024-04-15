@@ -117,10 +117,28 @@ function selectGame($selectedArea, $selectedRules,$selectedFancyDress) {
         </select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
         <input type='hidden' name='selectedRules' value='$selectedRules'> 
-        <input type='hidden' name='selectedArea' value='$selectedFancyDress'>
+        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
         <input type='submit' value='Next'>
         </form>";       
 }
+
+///Function for choosing number of teams
+function noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame) {
+  echo "<form action='Pubathon.php' method='post'>
+        <label>Select Game</label>
+        <select name='selectedGame' required=true>
+        <option value=''></option>";
+        for ($i = 2; $i <= 8; $i++) {
+        echo '<option value="' . $i . '">' . $i . '</option>';
+        echo "</select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedRules' value='$selectedRules'> 
+        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
+        <input type='hidden' name='selectedGame' value='$selectedGame'>
+        <input type='submit' value='Next'>
+        </form>";       
+}
+
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
