@@ -117,7 +117,6 @@ function generatePubs($pdo, $selectedArea) {
 }
 
 // rest of functions here
-<<<<<<< HEAD
 function selectRulesOn(){
   echo"<form action='Pubathon.php' method='post'>
       <input type='checkbox' name='rules_toggle' value='on'>
@@ -125,10 +124,8 @@ function selectRulesOn(){
       <button type='submit'>Submit</button>
       </form>";
 }
-=======
 
 
->>>>>>> 17c73f9aa3edd1dd800efec1abacbfc9ff0ed1a4
 ?>
 </body>
 </html>
