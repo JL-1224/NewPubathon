@@ -196,8 +196,13 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
 function generate($pdo, $selectedArea) {
   $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
   $stmtPubs->execute(['selectedArea' => $selectedArea]);
+  
+  $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
+  $stmtFancyDress->execute();
+  $theme = $stmtFancyDress->fetchColumn();
 
-  echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
+  echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>
+        <p>Fancy Dress Theme: $theme</p>";
   
   // Display crawl/golf in table
   echo "<table border='1'>
