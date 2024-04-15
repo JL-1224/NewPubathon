@@ -6,7 +6,13 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title style="colour: blue;">Pubathon</title>
+  <title>Pubathon</title>
+  <style>
+    /* CSS for styling the title */
+    title {
+      color: blue; /* Adjust the color as needed */
+    }
+  </style>
 
 
 
@@ -207,4 +213,4 @@ function generate($pdo, $selectedArea) {
 }
 
 </body>
-</hmtl>
+</html>
