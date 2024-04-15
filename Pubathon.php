@@ -34,13 +34,17 @@ try {
     if (isset($_POST['selectedRules'])) {
       $selectedRules = $_POST['selectedRules'];
       
-      if (isset($_POST['selectedGame'])) {
-        $selectedGame = $_POST['selectedGame'];
-        generate($pdo, $selectedArea);
+      if (isset($_POST['selectedFancyDress'])) {
+        $selectedFancyDress = $_POST['selectedFancyDress'];
+      
+        if (isset($_POST['selectedGame'])) {
+          $selectedGame = $_POST['selectedGame'];
+          generate($pdo, $selectedArea);
+          
+        } else {
+          selectGame($selectedArea, $selectedRules);
+        }
         
-      } else {
-        selectGame($selectedArea, $selectedRules);
-      }
       
     } else {
       selectRulesOn($selectedArea); // Show rules selection if not set
