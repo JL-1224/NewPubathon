@@ -36,6 +36,7 @@ $opt = array(
 try {
   $pdo = new PDO($dsn, $db_username, $db_password, $opt);
   
+  // Code below allows for sequential inputting of data 
   if (isset($_POST['selectedArea'])) {
     $selectedArea = $_POST['selectedArea'];
     
@@ -53,15 +54,15 @@ try {
             generate($pdo, $selectedArea);
           }
           else {
-            generate($pdo, $selectedArea);
+            generate($pdo, $selectedArea); // If all necessary data has been captured, generate the game
           }
           
         } else {
-          selectGame($selectedArea, $selectedRules, $selectedFancyDress);
+          selectGame($selectedArea, $selectedRules, $selectedFancyDress); // Show game selection if not set
         }
         
       } else {
-        selectFancyDressOn($selectedArea, $selectedRules);
+        selectFancyDressOn($selectedArea, $selectedRules); // Show fancy dress selection if not set
       }
       
     } else {
@@ -69,7 +70,7 @@ try {
     }
     
   } else {
-    selectArea($pdo); // called if the user hasn't selected an area yet
+    selectArea($pdo); // Show area selection if not set
   }
 } catch (PDOException $e) {
   exit("PDO Error: " . $e->getMessage() . "<br>");
@@ -93,6 +94,7 @@ function selectArea($pdo) {
         </form>";
 }
 
+// Displays simple yes/no dropdown for if user wants rules or not
 function selectRulesOn($selectedArea){
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Rules On/Off</label>
@@ -106,6 +108,7 @@ function selectRulesOn($selectedArea){
         </form>"; 
 }
 
+// Displays simple yes/no dropdown for if user wants fancy dress or not
 function selectFancyDressOn($selectedArea, $selectedRules) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Fancy Dress On/Off</label>
@@ -157,7 +160,7 @@ function noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selected
         </form>";       
 }
 
-///Function for chosing number of players
+///Function for choosing total number of players 
 function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Number of Players</label>
