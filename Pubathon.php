@@ -130,14 +130,17 @@ function selectGame($selectedArea, $selectedRules,$selectedFancyDress) {
 }
 
 ///Function for choosing number of teams
-function noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame) {
+function noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
   echo "<form action='Pubathon.php' method='post'>
-        <label>Select Game</label>
-        <select name='selectedGame' required=true>
+        <label>Select Number of Teams</label>
+        <select name='selectedTeams' required=true>
         <option value=''></option>";
-        for ($i = 2; $i <= 8; $i++) {
-        echo '<option value="' . $i . '">' . $i . '</option>'; }
-        echo "</select>
+        
+  for ($i = 2; $i <= 8; $i++) {
+    echo "<option value='$i'>$i</option>";
+  }
+  
+  echo "</select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
         <input type='hidden' name='selectedRules' value='$selectedRules'> 
         <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
