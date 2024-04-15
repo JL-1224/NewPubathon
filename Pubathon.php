@@ -42,9 +42,12 @@ try {
           generate($pdo, $selectedArea);
           
         } else {
-          selectGame($selectedArea, $selectedRules);
+          selectGame($selectedArea, $selectedRules,$selectedFancyDress);
         }
         
+      else {
+      selectFancyDress($selectedArea, $selectedRules);
+      }
       
     } else {
       selectRulesOn($selectedArea); // Show rules selection if not set
@@ -103,7 +106,7 @@ function selectFancyDressOn($selectedArea, $selectedRules){
 }
 
 // Displays dropdown to allow user to chose between pub golf and crawl
-function selectGame($selectedArea, $selectedRules) {
+function selectGame($selectedArea, $selectedRules,$selectedFancyDress) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Game</label>
         <select name='selectedGame' required=true>
