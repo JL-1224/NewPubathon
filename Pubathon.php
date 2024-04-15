@@ -136,7 +136,7 @@ function noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGa
         <select name='selectedGame' required=true>
         <option value=''></option>";
         for ($i = 2; $i <= 8; $i++) {
-        echo '<option value="' . $i . '">' . $i . '</option>';
+        echo '<option value="' . $i . '">' . $i . '</option>'; }
         echo "</select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
         <input type='hidden' name='selectedRules' value='$selectedRules'> 
