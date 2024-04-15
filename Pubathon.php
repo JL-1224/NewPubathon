@@ -55,7 +55,7 @@ try {
               $selectedTeams = $_POST['selectedTeams'];
               
               if (isset($_POST['selectedPlayers'])) {
-                generate($pdo, $selectedArea, $selectedFancyDress);
+                generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
               } else {
                 noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams);
               }
@@ -64,11 +64,11 @@ try {
             }
 
           } else {
-            generate($pdo, $selectedArea, $selectedFancyDress); // If all necessary data has been captured, generate the game
+            generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules); // If all necessary data has been captured, generate the game
           }
           
         } else {
-          selectGame($selectedArea, $selectedRules, $selectedFancyDress); // Show game selection if not set
+          selectGame($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $selectedRules); // Show game selection if not set
         }
         
       } else {
@@ -193,7 +193,7 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
-function generate($pdo, $selectedArea, $selectedFancyDress) {
+function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules) {
   $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
   $stmtPubs->execute(['selectedArea' => $selectedArea]);
   
@@ -205,22 +205,40 @@ function generate($pdo, $selectedArea, $selectedFancyDress) {
     $theme = $stmtFancyDress->fetchColumn();
     echo "<p>Fancy Dress Theme: $theme</p>";
   }
+  
+  if ($selectedGame == "Pub Crawl" && $selectedRules == "On") {
+    $stmtCrawlRules = $pdo->prepare("SELECT * FROM pubCrawlRules ORDER BY RAND() LIMIT 9");
+    $stmtCrawlRules->execute();
+    $crawlRules = $stmtCrawlRules->fetchAll();
+  }
 
   // Display crawl/golf in table
   echo "<table border='1'>
         <tr>
         <th>Pub</th>
         <th>Name</th>
-        <th>Address</th>
-        </tr>";
+        <th>Address</th>";
+        
+  if ($selectedGame == "Pub Crawl" && $selectedRules == "On") {
+    echo "<th>Pub Crawl Rules</th>";
+  }
+        
+        
+  echo "</tr>";
         
   $i = 1;
   foreach($stmtPubs as $row) {
-        echo "<tr>
-            <td>Pub " . $i  . "</td>
-            <td>" . $row["name"] . "</td>
-            <td>" . $row["address"] . "</td>
-          </tr>";
+    echo "<tr>
+          <td>Pub " . $i  . "</td>
+          <td>" . $row["name"] . "</td>
+          <td>" . $row["address"] . "</td>";
+    
+    if ($selectedGame == "Pub Crawl" && $selectedRules == "On") {
+      $randomRule = array_shift($crawlRules);
+      echo "<td>" . $randomRule['rule'] . "</td>";
+    }
+          
+    echo "</tr>";
     $i += 1;
   }
   
