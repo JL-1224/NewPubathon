@@ -85,19 +85,38 @@ function generatePubs($pdo, $selectedArea) {
   $stmt = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
   $stmt->execute(['selectedArea' => $selectedArea]);
 
-  // Displays pubs on screen
   echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
-  echo "<ul>";
+
+  // Previous code displayed in list format
+  //foreach($stmt as $row) {
+    //echo "<li>Pub " . $i  . ": " . $row["name"] . " - " . $row["address"] . "</li>";
+    //$i += 1;
+  //}
+  
+  // Updated code now displays as table
+  echo "<table border='1'>
+        <tr>
+        <th>Pub</th>
+        <th>Name</th>
+        <th>Address</th>
+        </tr>";
+        
   $i = 1;
   foreach($stmt as $row) {
-    echo "<li>Pub " . $i  . ": " . $row["name"] . " - " . $row["address"] . "</li>";
+        echo "<tr>
+            <td>Pub " . $i  . "</td>
+            <td>" . $row["name"] . "</td>
+            <td>" . $row["address"] . "</td>
+          </tr>";
     $i += 1;
   }
   
-  echo "</ul>";
+  echo "</table>";
+  
 }
 
 // rest of functions here
+
 
 ?>
 </body>
