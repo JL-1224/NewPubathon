@@ -62,6 +62,29 @@ INSERT INTO `pubCrawlRules` VALUES ('No names/nicknames'),('Drink in 2 sips'),('
 UNLOCK TABLES;
 
 --
+-- Table structure for table `pubGolfScores`
+--
+
+DROP TABLE IF EXISTS `pubGolfScores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pubGolfScores` (
+  `drink` varchar(50) DEFAULT NULL,
+  `score` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pubGolfScores`
+--
+
+LOCK TABLES `pubGolfScores` WRITE;
+/*!40000 ALTER TABLE `pubGolfScores` DISABLE KEYS */;
+INSERT INTO `pubGolfScores` VALUES ('Cider','Par 2'),('Pint of Lager','Par 2'),('Cocktail','Par 1'),('Large Wine','Par 2'),('Guinness','Par 2'),('Baby Guinness','Par 1'),('Double Vodka','Par 3'),('Rum/Gin & Mixer','Par 3');
+/*!40000 ALTER TABLE `pubGolfScores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `pubGolfPenalties`
 --
 
@@ -115,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-15 18:51:29
+-- Dump completed on 2024-04-15 18:54:39
