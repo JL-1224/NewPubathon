@@ -55,7 +55,7 @@ try {
               $selectedTeams = $_POST['selectedTeams'];
               
               if (isset($_POST['selectedPlayers'])) {
-                // generate($pdo, $selectedArea);
+                generate($pdo, $selectedArea, $selectedFancyDress);
               } else {
                 noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams);
               }
@@ -64,7 +64,7 @@ try {
             }
 
           } else {
-            generate($pdo, $selectedArea); // If all necessary data has been captured, generate the game
+            generate($pdo, $selectedArea, $selectedFancyDress); // If all necessary data has been captured, generate the game
           }
           
         } else {
@@ -193,17 +193,19 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
-function generate($pdo, $selectedArea) {
+function generate($pdo, $selectedArea, $selectedFancyDress) {
   $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
   $stmtPubs->execute(['selectedArea' => $selectedArea]);
   
-  $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
-  $stmtFancyDress->execute();
-  $theme = $stmtFancyDress->fetchColumn();
-
-  echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>
-        <p>Fancy Dress Theme: $theme</p>";
+  echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
   
+  if ($selectedFancyDress == "On") {
+    $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
+    $stmtFancyDress->execute();
+    $theme = $stmtFancyDress->fetchColumn();
+    echo "<p>Fancy Dress Theme: $theme</p>";
+  }
+
   // Display crawl/golf in table
   echo "<table border='1'>
         <tr>
