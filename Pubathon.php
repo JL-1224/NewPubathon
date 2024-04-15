@@ -88,8 +88,10 @@ function generatePubs($pdo, $selectedArea) {
   // Displays pubs on screen
   echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
   echo "<ul>";
-  while ($row = $stmt->fetch()) {
-    echo "<li>" . $row["name"] . "</li>";
+  $i = 1;
+  foreach($stmt as $row) {
+    echo "<li>Pub " . $i  . ": " . $row["name"] . "</li>";
+    $i += 1;
   }
   
   echo "</ul>";
