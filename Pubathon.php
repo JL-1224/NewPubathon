@@ -39,7 +39,14 @@ try {
       
         if (isset($_POST['selectedGame'])) {
           $selectedGame = $_POST['selectedGame'];
-          generate($pdo, $selectedArea);
+          
+          if($selectedGame=='Pub Golf'){
+            noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame);
+            generate($pdo, $selectedArea);
+          }
+          else {
+            generate($pdo, $selectedArea);
+          }
           
         } else {
           selectGame($selectedArea, $selectedRules, $selectedFancyDress);
