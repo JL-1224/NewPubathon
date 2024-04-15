@@ -31,6 +31,7 @@ try {
   // Check if user has selected an area
   if (isset($_POST['selectedArea'])) {
     $selectedArea = $_POST['selectedArea'];
+    selectRulesOn();
     
     if (isset($_POST['selectedGame'])) {
       $selectedGame = $_POST['selectedGame'];
@@ -98,7 +99,13 @@ function generatePubs($pdo, $selectedArea) {
 }
 
 // rest of functions here
-
+function selectRulesOn(){
+  echo"<form action='Pubathon.php' method='post'>
+      <input type='checkbox' name='rules_toggle' value='on'>
+      <label for='rules_toggle'>Rules On/Off</label><br>
+      <button type='submit'>Submit</button>
+      </form>";
+}
 ?>
 </body>
 </html>
