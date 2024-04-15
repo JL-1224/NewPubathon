@@ -3,16 +3,18 @@
 
 <head>
 
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title style="colour: blue;">Pubathon</title>
+
 
 
 </head>
 
 <body>
 
-// html body content here
+<!-- html body content here -->
 
 <?php
 //Connecting database to script
@@ -43,7 +45,7 @@ try {
         if (isset($_POST['selectedGame'])) {
           $selectedGame = $_POST['selectedGame'];
           
-          if($selectedGame=='Pub Golf'){
+          if ($selectedGame == 'Pub Golf'){
             noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame);
             generate($pdo, $selectedArea);
           }
@@ -179,19 +181,10 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
 function generate($pdo, $selectedArea) {
   $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
   $stmtPubs->execute(['selectedArea' => $selectedArea]);
-  
-  $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
-  $stmtFancyDress->execute();
 
   echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
-
-  // Previous code displayed in list format
-  //foreach($stmt as $row) {
-    //echo "<li>Pub " . $i  . ": " . $row["name"] . " - " . $row["address"] . "</li>";
-    //$i += 1;
-  //}
   
-  // Updated code now displays as table
+  // Display crawl/golf in table
   echo "<table border='1'>
         <tr>
         <th>Pub</th>
@@ -200,7 +193,7 @@ function generate($pdo, $selectedArea) {
         </tr>";
         
   $i = 1;
-  foreach($stmt as $row) {
+  foreach($stmtPubs as $row) {
         echo "<tr>
             <td>Pub " . $i  . "</td>
             <td>" . $row["name"] . "</td>
@@ -212,3 +205,6 @@ function generate($pdo, $selectedArea) {
   echo "</table>";
   
 }
+
+</body>
+</hmtl>
