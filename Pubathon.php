@@ -42,11 +42,11 @@ try {
           generate($pdo, $selectedArea);
           
         } else {
-          selectGame($selectedArea, $selectedRules,$selectedFancyDress);
+          selectGame($selectedArea, $selectedRules, $selectedFancyDress);
         }
         
-      else {
-      selectFancyDress($selectedArea, $selectedRules);
+      } else {
+        selectFancyDress($selectedArea, $selectedRules);
       }
       
     } else {
@@ -54,7 +54,7 @@ try {
     }
     
   } else {
-    selectArea($pdo); // called if user hasn't selected area yet
+    selectArea($pdo); // called if the user hasn't selected an area yet
   }
 } catch (PDOException $e) {
   exit("PDO Error: " . $e->getMessage() . "<br>");
