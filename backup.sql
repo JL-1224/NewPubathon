@@ -80,7 +80,7 @@ CREATE TABLE `pubGolfScores` (
 
 LOCK TABLES `pubGolfScores` WRITE;
 /*!40000 ALTER TABLE `pubGolfScores` DISABLE KEYS */;
-INSERT INTO `pubGolfScores` VALUES ('Cider','Par 2'),('Pint of Lager','Par 2'),('Cocktail','Par 1'),('Large Wine','Par 2'),('Guinness','Par 2'),('Baby Guinness','Par 1'),('Double Vodka','Par 3'),('Rum/Gin & Mixer','Par 3');
+INSERT INTO `pubGolfScores` VALUES ('Cider','Par 2'),('Pint of Lager','Par 2'),('Cocktail','Par 1'),('Large Wine','Par 2'),('Guinness','Par 2'),('Baby Guinness','Par 1'),('Double Vodka','Par 3'),('Rum/Gin & Mixer','Par 3'),('Shot of Sambuca or Tequila','Par 1');
 /*!40000 ALTER TABLE `pubGolfScores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-15 18:54:39
+-- Dump completed on 2024-04-15 19:18:24
