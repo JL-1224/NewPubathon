@@ -46,7 +46,7 @@ try {
         }
         
       } else {
-        selectFancyDress($selectedArea, $selectedRules);
+        selectFancyDressOn($selectedArea, $selectedRules);
       }
       
     } else {
@@ -91,7 +91,7 @@ function selectRulesOn($selectedArea){
         </form>"; 
 }
 
-function selectFancyDressOn($selectedArea, $selectedRules){
+function selectFancyDressOn($selectedArea, $selectedRules) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Fancy Dress On/Off</label>
         <select name='selectedFancyDress' required=true>
@@ -100,10 +100,11 @@ function selectFancyDressOn($selectedArea, $selectedRules){
         <option value='Off'>Off</option>
         </select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
-        <input type='hidden' name='selectedArea' value='$selectedRules'>
+        <input type='hidden' name='selectedRules' value='$selectedRules'>
         <input type='submit' value='Next'>
         </form>"; 
 }
+
 
 // Displays dropdown to allow user to chose between pub golf and crawl
 function selectGame($selectedArea, $selectedRules,$selectedFancyDress) {
