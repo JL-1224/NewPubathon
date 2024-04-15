@@ -36,7 +36,7 @@ try {
       
       if (isset($_POST['selectedGame'])) {
         $selectedGame = $_POST['selectedGame'];
-        generatePubs($pdo, $selectedArea);
+        generate($pdo, $selectedArea);
         
       } else {
         selectGame($selectedArea, $selectedRules);
@@ -71,7 +71,6 @@ function selectArea($pdo) {
         </form>";
 }
 
-// rest of functions here
 function selectRulesOn($selectedArea){
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Rules On/Off</label>
@@ -102,9 +101,12 @@ function selectGame($selectedArea, $selectedRules) {
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
-function generatePubs($pdo, $selectedArea) {
-  $stmt = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
-  $stmt->execute(['selectedArea' => $selectedArea]);
+function generate($pdo, $selectedArea) {
+  $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
+  $stmtPubs->execute(['selectedArea' => $selectedArea]);
+  
+  $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
+  $stmtFancyDress->execute();
 
   echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
 
