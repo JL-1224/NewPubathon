@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang='en-GB'>
 
+<html lang='en-GB'>
+
 <head>
-
-
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pubathon</title>
   <style>
     /* CSS for styling the title */
-    title {
+    h1 {
       color: blue; /* Adjust the color as needed */
     }
   </style>
-
-
-
-
 </head>
 
 <body>
