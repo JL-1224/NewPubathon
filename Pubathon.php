@@ -28,18 +28,22 @@ $opt = array(
 try {
   $pdo = new PDO($dsn, $db_username, $db_password, $opt);
   
-  // Check if user has selected an area
   if (isset($_POST['selectedArea'])) {
     $selectedArea = $_POST['selectedArea'];
-    selectRulesOn();
     
-    if (isset($_POST['selectedGame'])) {
-      $selectedGame = $_POST['selectedGame'];
-      generatePubs($pdo, $selectedArea);
+    if (isset($_POST['selectedRules'])) {
+      $selectedRules = $_POST['selectedRules'];
+      
+      if (isset($_POST['selectedGame'])) {
+        $selectedGame = $_POST['selectedGame'];
+        
+      } else {
+        selectGame($selectedArea, $selectedRules);
+      }
       
     } else {
-      selectGame($selectedArea); // called if user hasn't selected game yet
-    }  
+      selectRulesOn($selectedArea); // Show rules selection if not set
+    }
     
   } else {
     selectArea($pdo); // called if user hasn't selected area yet
@@ -66,8 +70,22 @@ function selectArea($pdo) {
         </form>";
 }
 
+// rest of functions here
+function selectRulesOn($selectedArea){
+  echo "<form action='Pubathon.php' method='post'>
+        <label>Select Rules On/Off</label>
+        <select name='selectedRules' required=true>
+        <option value=''></option>
+        <option value='On'>On</option>
+        <option value='Off'>Off</option>
+        </select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='submit' value='Next'>
+        </form>"; 
+}
+
 // Displays dropdown to allow user to chose between pub golf and crawl
-function selectGame($selectedArea) {
+function selectGame($selectedArea, $selectedRules) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Game</label>
         <select name='selectedGame' required=true>
@@ -75,7 +93,8 @@ function selectGame($selectedArea) {
         <option value='Pub Crawl'>Pub Crawl</option>
         <option value='Pub Golf'>Pub Golf</option>
         </select>
-        <input type='hidden' name='selectedArea' value='$selectedArea'> 
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedRules' value='$selectedRules'> 
         <input type='submit' value='Next'>
         </form>";       
 }
@@ -114,15 +133,6 @@ function generatePubs($pdo, $selectedArea) {
   
   echo "</table>";
   
-}
-
-// rest of functions here
-function selectRulesOn(){
-  echo"<form action='Pubathon.php' method='post'>
-      <input type='checkbox' name='rules_toggle' value='on'>
-      <label for='rules_toggle'>Rules On/Off</label><br>
-      <button type='submit'>Submit</button>
-      </form>";
 }
 
 
