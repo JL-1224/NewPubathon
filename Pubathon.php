@@ -217,5 +217,5 @@ function generate($pdo, $selectedArea) {
 ?>
 </body>
 
-</hmtl>
+</html>
 
