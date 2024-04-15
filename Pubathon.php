@@ -3,12 +3,7 @@
 
 <head>
 
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title style="colour: blue;">Pubathon</title>
-
-
+<!-- html head count here -->
 
 </head>
 
@@ -206,5 +201,6 @@ function generate($pdo, $selectedArea) {
   
 }
 
+?>
 </body>
 </hmtl>
