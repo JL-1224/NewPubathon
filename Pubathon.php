@@ -3,13 +3,13 @@
 
 <head>
 
-// html head content here
+<!-- html head count here -->
 
 </head>
 
 <body>
 
-// html body content here
+<!-- html body content here -->
 
 <?php
 //Connecting database to script
@@ -40,7 +40,7 @@ try {
         if (isset($_POST['selectedGame'])) {
           $selectedGame = $_POST['selectedGame'];
           
-          if($selectedGame=='Pub Golf'){
+          if ($selectedGame == 'Pub Golf'){
             noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame);
             generate($pdo, $selectedArea);
           }
@@ -200,3 +200,6 @@ function generate($pdo, $selectedArea) {
   echo "</table>";
   
 }
+
+</body>
+</hmtl>
