@@ -36,6 +36,7 @@ try {
       
       if (isset($_POST['selectedGame'])) {
         $selectedGame = $_POST['selectedGame'];
+        generatePubs($pdo, $selectedArea);
         
       } else {
         selectGame($selectedArea, $selectedRules);
@@ -134,8 +135,3 @@ function generatePubs($pdo, $selectedArea) {
   echo "</table>";
   
 }
-
-
-?>
-</body>
-</html>
