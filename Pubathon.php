@@ -36,52 +36,38 @@ $opt = array(
 try {
   $pdo = new PDO($dsn, $db_username, $db_password, $opt);
   
-  // Code below allows for sequential inputting of data 
   if (isset($_POST['selectedArea'])) {
     $selectedArea = $_POST['selectedArea'];
     
-    if (isset($_POST['selectedRules'])) {
-      $selectedRules = $_POST['selectedRules'];
-      
-      if (isset($_POST['selectedFancyDress'])) {
-        $selectedFancyDress = $_POST['selectedFancyDress'];
-      
-        if (isset($_POST['selectedGame'])) {
-          $selectedGame = $_POST['selectedGame'];
-          
-          if ($selectedGame == 'Pub Golf'){
+    if (isset($_POST['selectedGame'])) {
+        $selectedGame = $_POST['selectedGame'];
+        
+        if (isset($_POST['selectedFancyDress'])) {
+            $selectedFancyDress = $_POST['selectedFancyDress'];
             
-            if (isset($_POST['selectedTeams'])) {
-              $selectedTeams = $_POST['selectedTeams'];
-              
-              if (isset($_POST['selectedPlayers'])) {
-                generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
-              } else {
-                noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams);
-              }
+            if ($selectedGame == 'Pub Crawl') {
+                if (isset($_POST['selectedRules'])) {
+                    $selectedRules = $_POST['selectedRules'];
+                    generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
+                } else {
+                    selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress); // Show rules selection if not set
+                }
             } else {
-              noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame);
+                generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
             }
-
-          } else {
-            generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules); // If all necessary data has been captured, generate the game
-          }
-          
+            
         } else {
-          selectGame($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $selectedRules); // Show game selection if not set
+            selectFancyDressOn($selectedArea, $selectedGame); // Show fancy dress selection if not set
         }
         
-      } else {
-        selectFancyDressOn($selectedArea, $selectedRules); // Show fancy dress selection if not set
-      }
-      
     } else {
-      selectRulesOn($selectedArea); // Show rules selection if not set
+        selectGame($selectedArea); // Show game selection if not set
     }
     
   } else {
-    selectArea($pdo); // Show area selection if not set
+      selectArea($pdo); // Show area selection if not set
   }
+  
 } catch (PDOException $e) {
   exit("PDO Error: " . $e->getMessage() . "<br>");
 }
@@ -104,38 +90,8 @@ function selectArea($pdo) {
         </form>";
 }
 
-// Displays simple yes/no dropdown for if user wants rules or not
-function selectRulesOn($selectedArea){
-  echo "<form action='Pubathon.php' method='post'>
-        <label>Select Rules On/Off</label>
-        <select name='selectedRules' required=true>
-        <option value=''></option>
-        <option value='On'>On</option>
-        <option value='Off'>Off</option>
-        </select>
-        <input type='hidden' name='selectedArea' value='$selectedArea'>
-        <input type='submit' value='Next'>
-        </form>"; 
-}
-
-// Displays simple yes/no dropdown for if user wants fancy dress or not
-function selectFancyDressOn($selectedArea, $selectedRules) {
-  echo "<form action='Pubathon.php' method='post'>
-        <label>Select Fancy Dress On/Off</label>
-        <select name='selectedFancyDress' required=true>
-        <option value=''></option>
-        <option value='On'>On</option>
-        <option value='Off'>Off</option>
-        </select>
-        <input type='hidden' name='selectedArea' value='$selectedArea'>
-        <input type='hidden' name='selectedRules' value='$selectedRules'>
-        <input type='submit' value='Next'>
-        </form>"; 
-}
-
-
 // Displays dropdown to allow user to chose between pub golf and crawl
-function selectGame($selectedArea, $selectedRules,$selectedFancyDress) {
+function selectGame($selectedArea) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Game</label>
         <select name='selectedGame' required=true>
@@ -144,10 +100,39 @@ function selectGame($selectedArea, $selectedRules,$selectedFancyDress) {
         <option value='Pub Golf'>Pub Golf</option>
         </select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
-        <input type='hidden' name='selectedRules' value='$selectedRules'> 
-        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
         <input type='submit' value='Next'>
         </form>";       
+}
+
+// Displays simple yes/no dropdown for if user wants fancy dress or not
+function selectFancyDressOn($selectedArea, $selectedGame) {
+  echo "<form action='Pubathon.php' method='post'>
+        <label>Select Fancy Dress On/Off</label>
+        <select name='selectedFancyDress' required=true>
+        <option value=''></option>
+        <option value='On'>On</option>
+        <option value='Off'>Off</option>
+        </select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedGame' value='$selectedGame'>
+        <input type='submit' value='Next'>
+        </form>"; 
+}
+
+// Displays simple yes/no dropdown for if user wants rules or not
+function selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress) {
+  echo "<form action='Pubathon.php' method='post'>
+        <label>Select Rules On/Off</label>
+        <select name='selectedRules' required=true>
+        <option value=''></option>
+        <option value='On'>On</option>
+        <option value='Off'>Off</option>
+        </select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedGame' value='$selectedGame'>
+        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
+        <input type='submit' value='Next'>
+        </form>"; 
 }
 
 ///Function for choosing number of teams
@@ -210,6 +195,10 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
     $stmtCrawlRules = $pdo->prepare("SELECT * FROM pubCrawlRules ORDER BY RAND() LIMIT 9");
     $stmtCrawlRules->execute();
     $crawlRules = $stmtCrawlRules->fetchAll();
+  } else if ($selectedGame == "Pub Golf") {
+    $stmtGolfScores = $pdo->prepare("SELECT * FROM pubGolfScores ORDER BY RAND() LIMIT 9");
+    $stmtGolfScores->execute();
+    $golfScores = $stmtGolfScores->fetchAll();
   }
 
   // Display crawl/golf in table
@@ -221,8 +210,10 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
         
   if ($selectedGame == "Pub Crawl" && $selectedRules == "On") {
     echo "<th>Pub Crawl Rules</th>";
+  } else if ($selectedGame == "Pub Golf") {
+    echo "<th>Drink</th>";
+    echo "<th>Score</th>";
   }
-        
         
   echo "</tr>";
         
@@ -236,6 +227,10 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
     if ($selectedGame == "Pub Crawl" && $selectedRules == "On") {
       $randomRule = array_shift($crawlRules);
       echo "<td>" . $randomRule['rule'] . "</td>";
+    } else if ($selectedGame == "Pub Golf") {
+      $randomScore = array_shift($golfScores);
+      echo "<td>" . $randomScore['drink'] . "</td>
+            <td>" . $randomScore['score'] . "</td>";
     }
           
     echo "</tr>";

@@ -62,26 +62,26 @@ INSERT INTO `pubCrawlRules` VALUES ('No names/nicknames'),('Drink in 2 sips'),('
 UNLOCK TABLES;
 
 --
--- Table structure for table `pubGolfPenalties`
+-- Table structure for table `pubGolfScores`
 --
 
-DROP TABLE IF EXISTS `pubGolfPenalties`;
+DROP TABLE IF EXISTS `pubGolfScores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pubGolfPenalties` (
-  `penalty` varchar(50) DEFAULT NULL,
-  `stroke` varchar(50) DEFAULT NULL
+CREATE TABLE `pubGolfScores` (
+  `drink` varchar(50) DEFAULT NULL,
+  `score` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pubGolfPenalties`
+-- Dumping data for table `pubGolfScores`
 --
 
-LOCK TABLES `pubGolfPenalties` WRITE;
-/*!40000 ALTER TABLE `pubGolfPenalties` DISABLE KEYS */;
-INSERT INTO `pubGolfPenalties` VALUES ('Water Hazard','+2 Strokes'),('Spillage','+1 Stroke'),('Vomit','+10 Strokes'),('Refused a Drink','+10 Strokes'),('Cheating - purposefully spilling drink','+10 Strokes'),('Being refused a drink or kicked out of a bar','+5 Strokes');
-/*!40000 ALTER TABLE `pubGolfPenalties` ENABLE KEYS */;
+LOCK TABLES `pubGolfScores` WRITE;
+/*!40000 ALTER TABLE `pubGolfScores` DISABLE KEYS */;
+INSERT INTO `pubGolfScores` VALUES ('Cider','Par 2'),('Pint of Lager','Par 2'),('Cocktail','Par 1'),('Double Vodka','Par 3'),('Large Wine','Par 2'),('Guinness','Par 2'),('Rum/Gin and Mixer','par 3'),('Baby Guinness','Par 1');
+/*!40000 ALTER TABLE `pubGolfScores` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -115,4 +115,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-15 18:51:29
+-- Dump completed on 2024-04-08 18:20:22
