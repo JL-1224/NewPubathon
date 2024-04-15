@@ -50,10 +50,20 @@ try {
           $selectedGame = $_POST['selectedGame'];
           
           if ($selectedGame == 'Pub Golf'){
-            noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame);
-            generate($pdo, $selectedArea);
-          }
-          else {
+            
+            if (isset($_POST['selectedTeams'])) {
+              $selectedTeams = $_POST['selectedTeams'];
+              
+              if (isset($_POST['selectedPlayers'])) {
+                // generate($pdo, $selectedArea);
+              } else {
+                noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams);
+              }
+            } else {
+              noOfTeams($selectedArea, $selectedRules,$selectedFancyDress,$selectedGame);
+            }
+
+          } else {
             generate($pdo, $selectedArea); // If all necessary data has been captured, generate the game
           }
           
@@ -180,7 +190,6 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
         <input type='submit' value='Next'>
         </form>";       
 }
-
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
