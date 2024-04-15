@@ -90,7 +90,7 @@ function generatePubs($pdo, $selectedArea) {
   echo "<ul>";
   $i = 1;
   foreach($stmt as $row) {
-    echo "<li>Pub " . $i  . ": " . $row["name"] . "</li>";
+    echo "<li>Pub " . $i  . ": " . $row["name"] . " - " . $row["address"] . "</li>";
     $i += 1;
   }
   
