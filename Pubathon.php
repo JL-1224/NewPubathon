@@ -3,7 +3,7 @@
 
 <head>
 
-<<<<<<< HEAD
+
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,9 +16,7 @@
   </style>
 
 
-=======
-<!-- html head count here -->
->>>>>>> 330df92891bcfd989727c39ecf003ad49b6d5d71
+
 
 </head>
 
@@ -218,8 +216,6 @@ function generate($pdo, $selectedArea) {
 
 ?>
 </body>
-<<<<<<< HEAD
-</html>
-=======
+
 </hmtl>
->>>>>>> 330df92891bcfd989727c39ecf003ad49b6d5d71
+
