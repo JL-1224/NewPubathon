@@ -61,11 +61,10 @@ try {
                       generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
                     }  else {
                         noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
-                } else {
+                } 
+              } else {
                     noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
-                }
-
-                }
+              }
             }
             
         } else {
