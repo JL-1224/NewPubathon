@@ -35,62 +35,62 @@ $opt = array(
 
 try {
   $pdo = new PDO($dsn, $db_username, $db_password, $opt);
-  
-  if (isset($_POST['selectedArea'])) {
-    $selectedArea = $_POST['selectedArea'];
-    
-    if (isset($_POST['selectedGame'])) {
-        $selectedGame = $_POST['selectedGame'];
-        
-        if (isset($_POST['selectedFancyDress'])) {
-            $selectedFancyDress = $_POST['selectedFancyDress'];
-            
-            if ($selectedGame == 'Pub Crawl') {
-                if (isset($_POST['selectedRules'])) {
-                    $selectedRules = $_POST['selectedRules'];
-                    generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
-                } else {
-                    selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress); // Show rules selection if not set
-                }
-            } else {
-                if(isset($_POST['selectedTeams'])){
-                    $noOfTeams = $_POST['selectedTeams'];
 
-                    if(isset($_POST['team_name'])){
+  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['selectedArea'])) {
+      $selectedArea = $_POST['selectedArea'];
 
-                      if(isset($_POST['selectedPlayers'])){
-                        $noOfPlayers= $_POST['selectedPlayers'];
-                      
-                        if(isset($_POST['player_name'])){
-                          generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
-                        } else {
-                          enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$teamName);
-                      } else {
-                        noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams);
-                      }
-                    } else {
-                      enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
-                    }
+      if (isset($_POST['selectedGame'])) {
+          $selectedGame = $_POST['selectedGame'];
+
+          if (isset($_POST['selectedFancyDress'])) {
+              $selectedFancyDress = $_POST['selectedFancyDress'];
+
+              if ($selectedGame == 'Pub Crawl') {
+                  if (isset($_POST['selectedRules'])) {
+                      $selectedRules = $_POST['selectedRules'];
+                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
                   } else {
-                        noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
+                      selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress); // Show rules selection if not set
                   }
-                }
-            }
-            
-        } else {
-            selectFancyDressOn($selectedArea, $selectedGame); // Show fancy dress selection if not set
-        }
-        
-    } else {
-        selectGame($selectedArea); // Show game selection if not set
-    }
-    
+              } else {
+                  if (isset($_POST['selectedTeams'])) {
+                      $noOfTeams = $_POST['selectedTeams'];
+
+                      if (isset($_POST['team_name'])) {
+                          // Check if team names are submitted
+                          $teamNames = $_POST['team_name'];
+
+                          if (isset($_POST['selectedPlayers'])) {
+                              $noOfPlayers = $_POST['selectedPlayers'];
+
+                              if (isset($_POST['player_name'])) {
+                                  // Process the player names
+                              } else {
+                                  enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $teamNames);
+                              }
+                          } else {
+                              noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $noOfTeams);
+                          }
+                      } else {
+                          enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
+                      }
+                  } else {
+                      noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
+                  }
+              }
+          } else {
+              selectFancyDressOn($selectedArea, $selectedGame); // Show fancy dress selection if not set
+          }
+      } else {
+          selectGame($selectedArea); // Show game selection if not set
+      }
   } else {
       selectArea($pdo); // Show area selection if not set
   }
-  
 } catch (PDOException $e) {
   exit("PDO Error: " . $e->getMessage() . "<br>");
+}
+
 }
 
 // Displays dropdown of areas pulled from database
