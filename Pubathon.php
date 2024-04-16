@@ -91,8 +91,6 @@ try {
   exit("PDO Error: " . $e->getMessage() . "<br>");
 }
 
-}
-
 // Displays dropdown of areas pulled from database
 function selectArea($pdo) {
   echo "<form action='Pubathon.php' method='post'>
