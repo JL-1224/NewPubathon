@@ -56,7 +56,7 @@ try {
                 if(isset($_POST['selectedTeams'])){
                     $noOfTeams = $_POST['selectedTeams'];
 
-                    if(isset($_POST['Submit'])){
+                    if(isset($_POST['team_name'])){
                       generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
                     } else {
                       enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
