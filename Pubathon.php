@@ -53,7 +53,19 @@ try {
                     selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress); // Show rules selection if not set
                 }
             } else {
-                generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
+                if(isset($_POST['selectedTeams'])){
+                    $selectedTeams = $_POST['selectedTeams'];
+
+                    if (isset($_POST['selectedPlayers'])){
+                      $selectedPlayers = $_POST['selectedPlayers'];
+                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
+                    }  else {
+                        noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
+                } else {
+                    noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
+                }
+
+                }
             }
             
         } else {
