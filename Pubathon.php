@@ -55,11 +55,10 @@ try {
             } else {
                 if(isset($_POST['selectedTeams'])){
                     $noOfTeams = $_POST['selectedTeams'];
+                    displayForm($noOfTeams);
 
                     if (isset($_POST['selectedPlayers'])){
                       $selectedPlayers = $_POST['selectedPlayers'];
-                      displayForm();
-                      processForm();
                       generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
                     }  else {
                         noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
@@ -254,21 +253,21 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   
 }
 
-function displayForm() {
-  echo '
-  <form method="post" action="">
-      <label for="team_name">Team Name:</label>
-      <input type="text" id="team_name" name="team_name" required>
-      <br>
-      <label for="player_names">Player Names (comma-separated):</label>
-      <input type="text" id="player_names" name="player_names" required>
-      <br>
-      <input type="submit" value="Submit">
-  </form>';
+function displayForm($noOfTeams) {
+  echo "
+      <form action='Pubathon.php' method='post'>
+      <label for='team_name'>Team Name:</label>";
+      foreach($noOfTeams as $teamName){
+        echo"Team $noOfTeams: <input type='text' id='team_name' name='team_name' required>
+        <br>";
+      }
+      echo"
+      <input type='submit' value='Submit'>
+  </form>";
 }
 
 // Function to handle form submission and display entered data in a table
-function processForm() {
+/* function processForm() {
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $teamName = $_POST["team_name"];
       $playerNames = explode(",", $_POST["player_names"]);
@@ -299,7 +298,7 @@ function processForm() {
       </table>';
   }
 }
-
+*/
 ?>
 </body>
 
