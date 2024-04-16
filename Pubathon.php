@@ -266,14 +266,14 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
 }
 
 function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
-  echo "<form action='Pubathon.php' method='post'>
+    echo "<form action='Pubathon.php' method='post'>
         <label for='team_name'>Enter Team Names:</label><br>";
       
-  for ($i = 1; $i <= $noOfTeams; $i++) {
-      echo "Team $i: <input type='text' name='team_name[]' required><br>";
-  }
+    for ($i = 1; $i <= $noOfTeams; $i++) {
+        echo "Team $i: <input type='text' name='team_name[]' required><br>";
+    }
     
-  echo "</select>
+    echo "</select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
         <input type='hidden' name='selectedRules' value='$selectedRules'> 
         <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
@@ -281,32 +281,46 @@ function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDre
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
         <input type='submit' value='Next'>
         </form>";   
-  
 }
 
-function enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$teamName) {
-  echo "<form action='Pubathon.php' method='post'>
+function enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $playerNames) {
+    shuffle($playerNames); // Shuffle player names array
+    
+    echo "<form action='Pubathon.php' method='post'>
         <label for='player_name'>Enter Player Names:</label><br>";
       
-  for ($i = 1; $i <= $noOfPlayers; $i++) {
-      echo "Player $i: <input type='text' name='player_name[]' required><br>";
-  }
+    for ($i = 1; $i <= $noOfPlayers; $i++) {
+        echo "Player $i: <input type='text' name='player_name[]' required><br>";
+    }
     
-  echo "</select>
+    echo "</select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
         <input type='hidden' name='selectedRules' value='$selectedRules'> 
         <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
         <input type='hidden' name='selectedGame' value='$selectedGame'>
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
-        <input type='hidden' name='team_name' value='$teamName'>
-        <input type='hidden' name='selectedPlayers' value='$noOfPlayers'>
-        <input type='submit' value='Next'>
-        </form>";   
-  
+        <input type='hidden' name='selectedPlayers' value='$noOfPlayers'>";
+        
+    // Distribute players to teams
+    $teamIndex = 0;
+    echo "<table border='1'><tr><th>Team Name</th><th>Players</th></tr>";
+    foreach ($playerNames as $index => $player) {
+        if ($index % $noOfTeams === 0) {
+            $teamIndex++;
+            echo "<tr><td>{$teamNames[$teamIndex]}</td><td>$player</td></tr>";
+        } else {
+            echo "<td>$player</td>";
+        }
+    }
+    echo "</table>";
+    
+    echo "<input type='submit' value='Next'></form>";   
 }
 
 // Function to display teams and players in a table
-function displayTeamsAndPlayers($teamNames, $playerNames) {
+/*function displayTeamsAndPlayers($teamNames, $playerNames) {
+    //var_dump($teamNames);
+    //var_dump($playerNames);
     echo "<h2>Teams and Players:</h2>";
     echo "<table border='1'>
             <tr>
@@ -325,7 +339,7 @@ function displayTeamsAndPlayers($teamNames, $playerNames) {
               </tr>";
     }
     echo "</table>";
-}
+}*/
 
 ?>
 </body>
