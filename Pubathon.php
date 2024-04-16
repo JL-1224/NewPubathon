@@ -33,6 +33,7 @@ $opt = array(
   PDO::ATTR_EMULATE_PREPARES => false
 );
 
+// Main code block
 try {
   $pdo = new PDO($dsn, $db_username, $db_password, $opt);
 
@@ -45,26 +46,26 @@ try {
           if (isset($_POST['selectedFancyDress'])) {
               $selectedFancyDress = $_POST['selectedFancyDress'];
 
-              if ($selectedGame == 'Pub Crawl') {
+              if ($selectedGame == 'Pub Crawl') { // Route for Pub Crawl games
                   if (isset($_POST['selectedRules'])) {
                       $selectedRules = $_POST['selectedRules'];
-                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames);
+                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames); // If all necessary data gathered, generate game
                       
                   } else {
                       selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress); // Show rules selection if not set
                   }
                   
-              } else {
+              } else { // Route for Pub Golf games - also need to ask for teams 
                   if (isset($_POST['selectedTeams'])) {
                       $noOfTeams = $_POST['selectedTeams'];
 
                       if (isset($_POST['team_name']) && (isset($_POST['player_names']))) {
                           $teamNames = $_POST['team_name'];
                           $playerNames = $_POST['player_names'];
-                          generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames);
+                          generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames); // If all necessary data gathered, generate game
                           
                       } else {
-                          enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
+                          enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Show team creation section if not set yet
                       }
                       
                   } else {
@@ -88,7 +89,7 @@ try {
   exit("PDO Error: " . $e->getMessage() . "<br>");
 }
 
-// Displays dropdown of areas pulled from database
+// Displays dropdown of city areas pulled from database
 function selectArea($pdo) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Area:</label>
@@ -115,9 +116,11 @@ function selectGame($selectedArea) {
         <option value='Pub Crawl'>Pub Crawl</option>
         <option value='Pub Golf'>Pub Golf</option>
         </select>
-        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedArea' value='$selectedArea'> 
         <input type='submit' value='Next'>
-        </form>";       
+        </form>";  
+        
+        // Hidden inputs like shown above used throughout program to retain data between form submissions     
 }
 
 // Displays simple yes/no dropdown for if user wants fancy dress or not
@@ -151,7 +154,7 @@ function selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress) {
         </form>"; 
 }
 
-///Function for choosing number of teams
+///Function for choosing number of teams for pub golf - max of 8 but can change this if needed
 function noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Number of Teams</label>
@@ -171,26 +174,25 @@ function noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selected
         </form>";       
 }
 
-///Function for choosing total number of players 
-function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams,$teamNames) {
-  echo "<form action='Pubathon.php' method='post'>
-        <label>Select Number of Players</label>
-        <select name='selectedPlayers' required=true>
-        <option value=''></option>";
-        
-  for ($i = 2; $i <= 20; $i++) {
-    echo "<option value='$i'>$i</option>";
-  }
-  
-  echo "</select>
+// Allows user to create teams
+// Can enter team name and players on each team
+function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
+    echo "<form action='Pubathon.php' method='post'>
+          <label for='team_name'>Enter Team Names:</label><br>";
+      
+    for ($i = 1; $i <= $noOfTeams; $i++) {
+        echo "Team $i: <input type='text' name='team_name[]' required><br>";
+        echo "Enter players for Team $i (comma-separated): <input type='text' name='player_names[]'><br>";
+    }
+    
+    echo "</select>
         <input type='hidden' name='selectedArea' value='$selectedArea'>
         <input type='hidden' name='selectedRules' value='$selectedRules'> 
         <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
         <input type='hidden' name='selectedGame' value='$selectedGame'>
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
-        <input type='hidden' name='team_name' value='$teamName'>
         <input type='submit' value='Next'>
-        </form>";       
+        </form>";   
 }
 
 // Generates list of pubs depending on area selected
@@ -201,6 +203,7 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   
   echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
   
+  // Pulls random fancy dress theme from database and displays to suer
   if ($selectedFancyDress == "On") {
     $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
     $stmtFancyDress->execute();
@@ -208,6 +211,7 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
     echo "<p>Fancy Dress Theme: $theme</p>";
   }
   
+  // Pulls random rules/scores from database
   if ($selectedGame == "Pub Crawl" && $selectedRules == "On") {
     $stmtCrawlRules = $pdo->prepare("SELECT * FROM pubCrawlRules ORDER BY RAND() LIMIT 9");
     $stmtCrawlRules->execute();
@@ -218,13 +222,13 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
     $golfScores = $stmtGolfScores->fetchAll();
   }
 
-  // Display crawl/golf in table
+  // Display game generated in table
   echo "<table border='1'>
         <tr>
         <th>Pub</th>
         <th>Name</th>
         <th>Address</th>";
-        
+      
   if ($selectedGame == "Pub Crawl" && $selectedRules == "On") {
     echo "<th>Pub Crawl Rules</th>";
   } else if ($selectedGame == "Pub Golf") {
@@ -233,7 +237,8 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   }
         
   echo "</tr>";
-        
+   
+  // Populates table with pubs and their addresses and rules for pub crawl/golf if selected earlier     
   $i = 1;
   foreach($stmtPubs as $row) {
     echo "<tr>
@@ -256,76 +261,15 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   
   echo "</table>";
   
-  echo "<h2>Team Names:</h2>";
-  echo "<ul>";
-  foreach ($teamNames as $team) {
-      echo "<li>$team</li>";
-  }
-  echo "</ul>";
-  
-  echo "<h2>Players:</h2>";
+  // Shows created teams including name of team and players on each team
+  echo "<h2>Teams:</h2>";
   echo "<ul>";
   foreach ($playerNames as $teamIndex => $players) {
-      echo "<li>Team $teamNames[$teamIndex]: $players</li>";
+      echo "<li>$teamNames[$teamIndex]: $players</li>";
   }
   echo "</ul>";
   
 }
-
-function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
-    echo "<form action='Pubathon.php' method='post'>
-          <label for='team_name'>Enter Team Names:</label><br>";
-      
-    for ($i = 1; $i <= $noOfTeams; $i++) {
-        echo "Team $i: <input type='text' name='team_name[]' required><br>";
-        echo "Enter players for Team $i (comma-separated): <input type='text' name='player_names[]'><br>";
-    }
-    
-    echo "</select>
-        <input type='hidden' name='selectedArea' value='$selectedArea'>
-        <input type='hidden' name='selectedRules' value='$selectedRules'> 
-        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
-        <input type='hidden' name='selectedGame' value='$selectedGame'>
-        <input type='hidden' name='selectedTeams' value='$noOfTeams'>
-        <input type='submit' value='Next'>
-        </form>";   
-}
-
-/*
-function enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $playerNames) {
-    shuffle($playerNames); // Shuffle player names array
-    
-    echo "<form action='Pubathon.php' method='post'>
-        <label for='player_name'>Enter Player Names:</label><br>";
-      
-    for ($i = 1; $i <= $noOfPlayers; $i++) {
-        echo "Player $i: <input type='text' name='player_name[]' required><br>";
-    }
-    
-    echo "</select>
-        <input type='hidden' name='selectedArea' value='$selectedArea'>
-        <input type='hidden' name='selectedRules' value='$selectedRules'> 
-        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
-        <input type='hidden' name='selectedGame' value='$selectedGame'>
-        <input type='hidden' name='selectedTeams' value='$noOfTeams'>
-        <input type='hidden' name='selectedPlayers' value='$noOfPlayers'>";
-        
-    // Distribute players to teams
-    $teamIndex = 0;
-    echo "<table border='1'><tr><th>Team Name</th><th>Players</th></tr>";
-    foreach ($playerNames as $index => $player) {
-        if ($index % $noOfTeams === 0) {
-            $teamIndex++;
-            echo "<tr><td>{$teamNames[$teamIndex]}</td><td>$player</td></tr>";
-        } else {
-            echo "<td>$player</td>";
-        }
-    }
-    echo "</table>";
-    
-    echo "<input type='submit' value='Next'></form>";   
-}
-*/
 
 ?>
 </body>
