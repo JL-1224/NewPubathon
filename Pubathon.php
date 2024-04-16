@@ -65,7 +65,7 @@ try {
                           noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
                       } 
                     } else {
-                      displayForm($noOfTeams);
+                      enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
                     }
                   } else {
                         noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
@@ -257,17 +257,26 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   
 }
 
-function displayForm($noOfTeams) {
-  echo "
-      <form action='Pubathon.php' method='post'>
-      <label for='team_name'>Team Name:</label>";
-      foreach($noOfTeams as $teamName){
-        echo"Team $noOfTeams: <input type='text' id='team_name' name='team_name' required>
-        <br>";
-      }
-      echo"
-      <input type='submit' value='Submit'>
-  </form>";
+function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
+  echo "<form action='Pubathon.php' method='post'>
+        <label for='team_name'>Enter Team Names:</label><br>";
+      
+  for ($i = 1; $i <= $noOfTeams; $i++) {
+      echo "Team $i: <input type='text' name='team_name[]' required><br>";
+  }
+    
+  echo "</select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedRules' value='$selectedRules'> 
+        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
+        <input type='hidden' name='selectedGame' value='$selectedGame'>
+        <input type='hidden' name='selectedTeams' value='$noOfTeams'>
+        <input type='submit' value='Next'>
+        </form>";   
+        
+  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['Submit'])) {
+    generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
+  }
 }
 
 // Function to handle form submission and display entered data in a table
