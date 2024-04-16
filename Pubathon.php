@@ -286,7 +286,7 @@ function enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $s
         <label for='player_name'>Enter Player Names:</label><br>";
       
   for ($i = 1; $i <= $noOfPlayers; $i++) {
-      echo "Team $i: <input type='text' name='player_name[]' required><br>";
+      echo "Player $i: <input type='text' name='player_name[]' required><br>";
   }
     
   echo "</select>
