@@ -62,12 +62,13 @@ try {
 
                           if (isset($_POST['selectedPlayers'])) {
                               $noOfPlayers = $_POST['selectedPlayers'];
-                              echo "$teamNames";
+                              // echo "$teamNames";
 
                               if (isset($_POST['player_name'])) {
                                   $playerNames = $_POST['player_name'];
                                   generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
-                                  echo"$playerNames";
+                                  displayTeamsAndPlayers($teamNames, $playerNames);
+                                  // echo"$playerNames";
                               } else {
                                   enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $teamNames);
                               }
@@ -304,6 +305,27 @@ function enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $s
   
 }
 
+// Function to display teams and players in a table
+function displayTeamsAndPlayers($teamNames, $playerNames) {
+    echo "<h2>Teams and Players:</h2>";
+    echo "<table border='1'>
+            <tr>
+                <th>Team Name</th>
+                <th>Players</th>
+            </tr>";
+    foreach($teamNames as $index => $teamName) {
+        echo "<tr>
+                <td>$teamName</td>
+                <td>";
+        // Display player names for the current team
+        foreach($playerNames[$index] as $player) {
+            echo "$player<br>";
+        }
+        echo "</td>
+              </tr>";
+    }
+    echo "</table>";
+}
 
 ?>
 </body>
