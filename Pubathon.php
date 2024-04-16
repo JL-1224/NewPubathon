@@ -14,7 +14,8 @@
 </head>
 
 <body>
-
+  
+  <h1>Pubathon</h1>
 
 <!-- html body content here -->
 
@@ -32,7 +33,7 @@ $opt = array(
   PDO::ATTR_EMULATE_PREPARES => false
 );
 
-<h1>Pubathon</h1>
+
 
 // Main code block
 try {
