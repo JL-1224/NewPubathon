@@ -57,13 +57,24 @@ try {
                     $noOfTeams = $_POST['selectedTeams'];
 
                     if(isset($_POST['team_name'])){
-                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
+
+                      if(isset($_POST['selectedPlayers'])){
+                        $noOfPlayers= $_POST['selectedPlayers'];
+                      
+                        if(isset($_POST['player_name'])){
+                          generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
+                        } else {
+                          enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$teamName);
+                      } else {
+                        noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams);
+                      }
                     } else {
                       enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
                     }
                   } else {
                         noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
                   }
+                }
             }
             
         } else {
@@ -265,6 +276,26 @@ function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDre
         <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
         <input type='hidden' name='selectedGame' value='$selectedGame'>
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
+        <input type='submit' value='Next'>
+        </form>";   
+  
+}
+
+function enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$teamName) {
+  echo "<form action='Pubathon.php' method='post'>
+        <label for='player_name'>Enter Player Names:</label><br>";
+      
+  for ($i = 1; $i <= $noOfPlayers; $i++) {
+      echo "Team $i: <input type='text' name='player_name[]' required><br>";
+  }
+    
+  echo "</select>
+        <input type='hidden' name='selectedArea' value='$selectedArea'>
+        <input type='hidden' name='selectedRules' value='$selectedRules'> 
+        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
+        <input type='hidden' name='selectedGame' value='$selectedGame'>
+        <input type='hidden' name='selectedTeams' value='$noOfTeams'>
+        <input type='hidden' name='team_name' value='$teamName'>
         <input type='submit' value='Next'>
         </form>";   
   
