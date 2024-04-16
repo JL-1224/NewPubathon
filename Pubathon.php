@@ -64,7 +64,8 @@ try {
                               $noOfPlayers = $_POST['selectedPlayers'];
 
                               if (isset($_POST['player_name'])) {
-                                  // Process the player names
+                                  $playerNames = $_POST['player_name'];
+                                  generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
                               } else {
                                   enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $teamNames);
                               }
