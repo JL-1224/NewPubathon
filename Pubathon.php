@@ -200,12 +200,37 @@ function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDre
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
 function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames) {
-  $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
+  // Prepare statement to select all pubs in the selected area
+  $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea");
   $stmtPubs->execute(['selectedArea' => $selectedArea]);
+  $allPubs = $stmtPubs->fetchAll();
+  
+  // Below code uses Haversine formula to calculate distance between each pub
+  // Aim is to minimise this to provide more convenience for end user
+  shuffle($allPubs);
+  $startingPub = array_shift($allPubs);
+  $orderedPubs = array($startingPub);
+  
+  while(count($allPubs) > 0 && count($orderedPubs) < 9) {
+    $minDistance = INF;
+    $closestPub = null;
+    
+    foreach($allPubs as $key => $pub) {
+      $distance = calculateDistance($startingPub['latitude'], $startingPub['longitude'], $pub['latitude'], $pub['longitude']);
+      if($distance < $minDistance) {
+        $minDistance = $distance;
+        $closestPub = $pub;
+      }
+    }
+    
+    $startingPub = $closestPub;
+    $orderedPubs[] = $closestPub;
+    unset($allPubs[array_search($closestPub, $allPubs)]);
+  }
   
   echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
   
-  // Pulls random fancy dress theme from database and displays to suer
+  // Pulls random fancy dress theme from database and displays to user
   if ($selectedFancyDress == "On") {
     $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
     $stmtFancyDress->execute();
@@ -242,7 +267,7 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
    
   // Populates table with pubs and their addresses and rules for pub crawl/golf if selected earlier     
   $i = 1;
-  foreach($stmtPubs as $row) {
+  foreach($orderedPubs as $row) {
     echo "<tr>
           <td>Pub " . $i  . "</td>
           <td>" . $row["name"] . "</td>
@@ -271,6 +296,22 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   }
   echo "</ul>";
   
+}
+
+// Function to calculate distance between pubs
+// Makes use of Haversine formula, which can be found here: https://stackoverflow.com/a/14750426
+function calculateDistance($lat1, $lon1, $lat2, $lon2) {
+  $r = 6371; // Radius of the Earth in kilometers - necessary component of formula
+
+  $dLat = deg2rad($lat2 - $lat1);
+  $dLon = deg2rad($lon2 - $lon1);
+
+  $a = sin($dLat / 2) * sin($dLat / 2) +
+       cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+       sin($dLon / 2) * sin($dLon / 2);
+  $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+  return $r * $c;
 }
 
 ?>
