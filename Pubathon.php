@@ -55,17 +55,21 @@ try {
             } else {
                 if(isset($_POST['selectedTeams'])){
                     $noOfTeams = $_POST['selectedTeams'];
-                    displayForm($noOfTeams);
 
-                    if (isset($_POST['selectedPlayers'])){
-                      $selectedPlayers = $_POST['selectedPlayers'];
-                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
-                    }  else {
-                        noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
-                    } 
-                } else {
-                      noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
-                }
+                    if(isset($_POST['Submit'])){
+
+                      if (isset($_POST['selectedPlayers'])){
+                        $selectedPlayers = $_POST['selectedPlayers'];
+                        generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
+                      }  else {
+                          noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
+                      } 
+                    } else {
+                      displayForm($noOfTeams);
+                    }
+                  } else {
+                        noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
+                  }
             }
             
         } else {
