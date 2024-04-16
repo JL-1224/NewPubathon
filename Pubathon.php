@@ -59,6 +59,8 @@ try {
                     if (isset($_POST['selectedPlayers'])){
                       $selectedPlayers = $_POST['selectedPlayers'];
                       generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
+                      echo"$noOfTeams";
+                      echo"$selectedPlayers";
                     }  else {
                         noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
                     } 
