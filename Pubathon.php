@@ -54,7 +54,7 @@ try {
                 }
             } else {
                 if(isset($_POST['selectedTeams'])){
-                    $selectedTeams = $_POST['selectedTeams'];
+                    $noOfTeams = $_POST['selectedTeams'];
 
                     if (isset($_POST['selectedPlayers'])){
                       $selectedPlayers = $_POST['selectedPlayers'];
