@@ -41,56 +41,49 @@ try {
 
       if (isset($_POST['selectedGame'])) {
           $selectedGame = $_POST['selectedGame'];
-
+          
           if (isset($_POST['selectedFancyDress'])) {
               $selectedFancyDress = $_POST['selectedFancyDress'];
 
               if ($selectedGame == 'Pub Crawl') {
                   if (isset($_POST['selectedRules'])) {
                       $selectedRules = $_POST['selectedRules'];
-                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
+                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames);
+                      
                   } else {
                       selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress); // Show rules selection if not set
                   }
+                  
               } else {
                   if (isset($_POST['selectedTeams'])) {
                       $noOfTeams = $_POST['selectedTeams'];
 
-                      if (isset($_POST['team_name'])) {
-                          // Check if team names are submitted
+                      if (isset($_POST['team_name']) && (isset($_POST['player_names']))) {
                           $teamNames = $_POST['team_name'];
-
-                          if (isset($_POST['selectedPlayers'])) {
-                              $noOfPlayers = $_POST['selectedPlayers'];
-                              // echo "$teamNames";
-
-                              if (isset($_POST['player_name'])) {
-                                  $playerNames = $_POST['player_name'];
-                                  generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
-                                  displayTeamsAndPlayers($teamNames, $playerNames);
-                                  // echo"$playerNames";
-                              } else {
-                                  enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $teamNames);
-                              }
-                          } else {
-                              noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $noOfTeams,$teamName);
-                          }
+                          $playerNames = $_POST['player_names'];
+                          generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames);
+                          
                       } else {
                           enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
                       }
+                      
                   } else {
                       noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame); // Only called for pub golf
                   }
               }
+              
           } else {
               selectFancyDressOn($selectedArea, $selectedGame); // Show fancy dress selection if not set
           }
+          
       } else {
           selectGame($selectedArea); // Show game selection if not set
       }
+      
   } else {
       selectArea($pdo); // Show area selection if not set
   }
+  
 } catch (PDOException $e) {
   exit("PDO Error: " . $e->getMessage() . "<br>");
 }
@@ -202,7 +195,7 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
-function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules) {
+function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames) {
   $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
   $stmtPubs->execute(['selectedArea' => $selectedArea]);
   
@@ -263,14 +256,29 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   
   echo "</table>";
   
+  echo "<h2>Team Names:</h2>";
+  echo "<ul>";
+  foreach ($teamNames as $team) {
+      echo "<li>$team</li>";
+  }
+  echo "</ul>";
+  
+  echo "<h2>Players:</h2>";
+  echo "<ul>";
+  foreach ($playerNames as $teamIndex => $players) {
+      echo "<li>Team $teamNames[$teamIndex]: $players</li>";
+  }
+  echo "</ul>";
+  
 }
 
 function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
     echo "<form action='Pubathon.php' method='post'>
-        <label for='team_name'>Enter Team Names:</label><br>";
+          <label for='team_name'>Enter Team Names:</label><br>";
       
     for ($i = 1; $i <= $noOfTeams; $i++) {
         echo "Team $i: <input type='text' name='team_name[]' required><br>";
+        echo "Enter players for Team $i (comma-separated): <input type='text' name='player_names[]'><br>";
     }
     
     echo "</select>
@@ -283,6 +291,7 @@ function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDre
         </form>";   
 }
 
+/*
 function enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $playerNames) {
     shuffle($playerNames); // Shuffle player names array
     
@@ -316,30 +325,7 @@ function enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $
     
     echo "<input type='submit' value='Next'></form>";   
 }
-
-// Function to display teams and players in a table
-/*function displayTeamsAndPlayers($teamNames, $playerNames) {
-    //var_dump($teamNames);
-    //var_dump($playerNames);
-    echo "<h2>Teams and Players:</h2>";
-    echo "<table border='1'>
-            <tr>
-                <th>Team Name</th>
-                <th>Players</th>
-            </tr>";
-    foreach($teamNames as $index => $teamName) {
-        echo "<tr>
-                <td>$teamName</td>
-                <td>";
-        // Display player names for the current team
-        foreach($playerNames[$index] as $player) {
-            echo "$player<br>";
-        }
-        echo "</td>
-              </tr>";
-    }
-    echo "</table>";
-}*/
+*/
 
 ?>
 </body>
