@@ -57,13 +57,7 @@ try {
                     $noOfTeams = $_POST['selectedTeams'];
 
                     if(isset($_POST['Submit'])){
-
-                      if (isset($_POST['selectedPlayers'])){
-                        $selectedPlayers = $_POST['selectedPlayers'];
-                        generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, ''); // For Pub Golf, no need to ask for rules
-                      }  else {
-                          noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams); // Only called if pub golf
-                      } 
+                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
                     } else {
                       enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
                     }
@@ -273,10 +267,7 @@ function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDre
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
         <input type='submit' value='Next'>
         </form>";   
-        
-  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['Submit'])) {
-    generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
-  }
+  
 }
 
 // Function to handle form submission and display entered data in a table
