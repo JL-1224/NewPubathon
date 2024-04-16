@@ -2,9 +2,9 @@
 <html lang='en-GB'>
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf8mb4">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pubathon</title>
+  
   <style>
     /* CSS for styling the title */
     h1 {
@@ -14,6 +14,8 @@
 </head>
 
 <body>
+  
+  <h1>Pubathon</h1>
 
 <!-- html body content here -->
 
@@ -30,6 +32,8 @@ $opt = array(
   PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
   PDO::ATTR_EMULATE_PREPARES => false
 );
+
+
 
 // Main code block
 try {
