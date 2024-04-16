@@ -15,7 +15,7 @@
 
 <body>
 
-<h1>Pubathon</h1>
+
 <!-- html body content here -->
 
 <?php
@@ -31,6 +31,8 @@ $opt = array(
   PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
   PDO::ATTR_EMULATE_PREPARES => false
 );
+
+<h1>Pubathon</h1>
 
 // Main code block
 try {
