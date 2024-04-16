@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf8mb4">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <h1>Pubathon</h1>
+  
   <style>
     /* CSS for styling the title */
     h1 {
@@ -15,6 +15,7 @@
 
 <body>
 
+<h1>Pubathon</h1>
 <!-- html body content here -->
 
 <?php
