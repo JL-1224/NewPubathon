@@ -70,7 +70,7 @@ try {
                                   enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $teamNames);
                               }
                           } else {
-                              noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $noOfTeams);
+                              noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $noOfTeams,$teamName);
                           }
                       } else {
                           enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame);
@@ -176,7 +176,7 @@ function noOfTeams($selectedArea, $selectedRules, $selectedFancyDress, $selected
 }
 
 ///Function for choosing total number of players 
-function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams) {
+function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$noOfTeams,$teamNames) {
   echo "<form action='Pubathon.php' method='post'>
         <label>Select Number of Players</label>
         <select name='selectedPlayers' required=true>
@@ -192,6 +192,7 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
         <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
         <input type='hidden' name='selectedGame' value='$selectedGame'>
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
+        <input type='hidden' name='team_name' value='$teamName'>
         <input type='submit' value='Next'>
         </form>";       
 }
@@ -295,6 +296,7 @@ function enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $s
         <input type='hidden' name='selectedGame' value='$selectedGame'>
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
         <input type='hidden' name='team_name' value='$teamName'>
+        <input type='hidden' name='selectedPlayers' value='$noOfPlayers'>
         <input type='submit' value='Next'>
         </form>";   
   
