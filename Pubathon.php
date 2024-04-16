@@ -48,7 +48,7 @@ try {
               if ($selectedGame == 'Pub Crawl') {
                   if (isset($_POST['selectedRules'])) {
                       $selectedRules = $_POST['selectedRules'];
-                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames);
+                      generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
                   } else {
                       selectRulesOn($selectedArea, $selectedGame, $selectedFancyDress); // Show rules selection if not set
                   }
@@ -65,7 +65,8 @@ try {
 
                               if (isset($_POST['player_name'])) {
                                   $playerNames = $_POST['player_name'];
-                                  generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames);
+
+                                  generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules);
                               } else {
                                   enterPlayers($noOfPlayers, $noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame, $teamNames);
                               }
@@ -199,25 +200,11 @@ function noOfPlayers($selectedArea, $selectedRules, $selectedFancyDress, $select
 
 // Generates list of pubs depending on area selected
 // Maximum of 9 pubs - can change this in SQL query if needed
-function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules, $teamNames, $playerNames) {
+function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $selectedRules) {
   $stmtPubs = $pdo->prepare("SELECT * FROM pubs WHERE area = :selectedArea ORDER BY RAND() LIMIT 9");
   $stmtPubs->execute(['selectedArea' => $selectedArea]);
   
   echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
-
-  // Display player names
-  echo "<h3>Players:</h3>";
-  echo "<table border='1'>
-        <tr>
-        <th>Team Name</th>
-        <th>Player Name</th>
-        </tr>";
-  foreach($playerNames as $team => $players) {
-    foreach($players as $player) {
-      echo "<tr><td>" . htmlspecialchars($team) . "</td><td>" . htmlspecialchars($player) . "</td></tr>";
-    }
-  }
-  echo "</table>";
   
   if ($selectedFancyDress == "On") {
     $stmtFancyDress = $pdo->prepare("SELECT * FROM fancyDress ORDER BY RAND() LIMIT 1");
@@ -276,7 +263,6 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   
 }
 
-// Add the following code to enterTeams function to collect team names
 function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame) {
   echo "<form action='Pubathon.php' method='post'>
         <label for='team_name'>Enter Team Names:</label><br>";
@@ -293,9 +279,9 @@ function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDre
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
         <input type='submit' value='Next'>
         </form>";   
+  
 }
 
-// Add the following code to enterPlayers function to collect player names
 function enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $selectedFancyDress, $selectedGame,$teamName) {
   echo "<form action='Pubathon.php' method='post'>
         <label for='player_name'>Enter Player Names:</label><br>";
@@ -310,15 +296,14 @@ function enterPlayers($noOfPlayers,$noOfTeams, $selectedArea, $selectedRules, $s
         <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
         <input type='hidden' name='selectedGame' value='$selectedGame'>
         <input type='hidden' name='selectedTeams' value='$noOfTeams'>
-        <input type='hidden' name='team_name' value='" . htmlspecialchars(json_encode($teamName)) . "'>
+        <input type='hidden' name='team_name' value='$teamName'>
         <input type='hidden' name='selectedPlayers' value='$noOfPlayers'>
         <input type='submit' value='Next'>
         </form>";   
+  
 }
 
 
 ?>
 </body>
-
 </html>
-
