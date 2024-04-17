@@ -188,13 +188,13 @@ function enterTeams($noOfTeams, $selectedArea, $selectedRules, $selectedFancyDre
     }
     
     echo "</select>
-        <input type='hidden' name='selectedArea' value='$selectedArea'>
-        <input type='hidden' name='selectedRules' value='$selectedRules'> 
-        <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
-        <input type='hidden' name='selectedGame' value='$selectedGame'>
-        <input type='hidden' name='selectedTeams' value='$noOfTeams'>
-        <input type='submit' value='Next'>
-        </form>";   
+          <input type='hidden' name='selectedArea' value='$selectedArea'>
+          <input type='hidden' name='selectedRules' value='$selectedRules'> 
+          <input type='hidden' name='selectedFancyDress' value='$selectedFancyDress'>
+          <input type='hidden' name='selectedGame' value='$selectedGame'>
+          <input type='hidden' name='selectedTeams' value='$noOfTeams'>
+          <input type='submit' value='Next'>
+          </form>";   
 }
 
 // Generates list of pubs depending on area selected
@@ -228,7 +228,7 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
     unset($allPubs[array_search($closestPub, $allPubs)]);
   }
   
-  echo "<h2>Randomly Selected Pubs in $selectedArea:</h2>";
+  echo "<h2>$selectedGame in $selectedArea:</h2>";
   
   // Pulls random fancy dress theme from database and displays to user
   if ($selectedFancyDress == "On") {
@@ -297,6 +297,7 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
     }
     echo "</ul>";
   }
+  
 }
 
 // Function to calculate distance between pubs
