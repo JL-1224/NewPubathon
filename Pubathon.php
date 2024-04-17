@@ -13,7 +13,7 @@
     
     body {
       text-align: center;
-      background-image: url("https://img.freepik.com/free-photo/blurred-city-lights_23-2148139079.jpg?w=1800&t=st=1713368513~exp=1713369113~hmac=62a42f3ca789228c08715d4b00a11f065051bf7650cf976b25d8fedf32345728");
+      background-image: url("NewPubathon/blurred-city-lights.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
