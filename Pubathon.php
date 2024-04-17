@@ -13,6 +13,11 @@
     
     body {
       text-align: center;
+      background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fpub-background&psig=AOvVaw22tLSNVx9p6p9vgaX7bsT6&ust=1713454445719000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOjTp6zJyYUDFQAAAAAdAAAAABAE");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      
     }
     
     
