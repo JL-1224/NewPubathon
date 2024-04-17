@@ -13,17 +13,39 @@
     
     body {
       text-align: center;
+      position: relative;
+    }
+    
+    .background-image{
+    
       background-image: url("NewPubathon/blurred-city-lights.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
       
+    }
+    
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.8); /* Adjust opacity as needed */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
     
     
     form, table {
       margin: 0 auto;
       width: 50%; 
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
