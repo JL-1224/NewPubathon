@@ -13,7 +13,7 @@
     
     body {
       text-align: center;
-      background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fpub-background&psig=AOvVaw22tLSNVx9p6p9vgaX7bsT6&ust=1713454445719000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOjTp6zJyYUDFQAAAAAdAAAAABAE");
+      background-image: url("https://img.freepik.com/free-photo/blurred-city-lights_23-2148139079.jpg?w=1800&t=st=1713368513~exp=1713369113~hmac=62a42f3ca789228c08715d4b00a11f065051bf7650cf976b25d8fedf32345728");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
