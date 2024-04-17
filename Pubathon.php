@@ -6,9 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <style>
-    /* CSS for styling the title */
+    
     h1 {
-      color: blue; /* Adjust the color as needed */
+      color: blue; 
+    }
+    
+    body {
+      text-align: center;
+    }
+    
+    
+    form, table {
+      margin: 0 auto;
+      width: 50%; 
     }
   </style>
 </head>
