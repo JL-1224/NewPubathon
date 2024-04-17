@@ -289,13 +289,14 @@ function generate($pdo, $selectedArea, $selectedFancyDress, $selectedGame, $sele
   echo "</table>";
   
   // Shows created teams including name of team and players on each team
-  echo "<h2>Teams:</h2>";
-  echo "<ul>";
-  foreach ($playerNames as $teamIndex => $players) {
-      echo "<li>$teamNames[$teamIndex]: $players</li>";
+  if ($selectedGame == "Pub Golf") {
+    echo "<h2>Teams:</h2>";
+    echo "<ul>";
+    foreach ($playerNames as $teamIndex => $players) {
+        echo "<li>$teamNames[$teamIndex]: $players</li>";
+    }
+    echo "</ul>";
   }
-  echo "</ul>";
-  
 }
 
 // Function to calculate distance between pubs
