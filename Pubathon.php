@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf8mb4">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <title>Pubathon</title>  
   <style>
     
     h1 {
