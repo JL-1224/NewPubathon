@@ -8,12 +8,13 @@
   <style>
     
     h1 {
-      color: blue; 
+      color: #4CAF50; 
     }
     
     body {
       text-align: center;
       position: relative;
+      font-family: Arial, sans-serif;
     }
     
     .background-image{
@@ -47,6 +48,83 @@
       position: relative;
       z-index: 1;
     }
+    
+    h1 {
+      font-size: 2.5rem; /* Increase the font size */
+    }
+    
+    /* Overlay styles */
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.9); /* Adjusted opacity */
+    }
+    
+    /* Form styles */
+    form {
+      margin-top: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    
+    /* Table styles */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+    }
+    
+    /* Teams list styles */
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    li {
+      margin-bottom: 5px;
+    }
+    
+    /* Additional styling for mobile devices */
+    @media only screen and (max-width: 600px) {
+      form, table {
+        width: 90%; /* Adjust width for smaller screens */
+      }
+    }
+
   </style>
 </head>
 
